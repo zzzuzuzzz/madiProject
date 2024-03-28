@@ -1,14 +1,16 @@
 {
-  "name": "madiprojectstest",
+  "name": "madivue",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vue/cli-service": "^5.0.8",
+    "vite": "^5.2.6",
     "vue": "^3.4.21"
   }
 }
