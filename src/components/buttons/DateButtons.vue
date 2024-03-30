@@ -1,56 +1,39 @@
 <template>
-  <div class="dateBlock">{{days}}</div>
+  <div class="day"
+       v-for="weekDay in weekDays"
+       v-bind:class="{ today: weekDay === today}"
+  >{{weekDay}}</div>
 </template>
 
 <script>
-  export default {
+import { DateClass } from "@/assets/DateClass";
+
+export default {
     data() {
       return {
-        days: '',
+        weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+        today: ''
       }
     },
     created() {
-      let weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-      let i = 0
-      for (i; i<7; i++) {
-        let div = document.createElement('div');
-        div.id = i;
-        if (i === (new Date()).getDay() - 1) {
-          div.classList.add('today');
-          div.classList.add('selectDay');
-        } else {
-          div.classList.add('anotherDay');
-        }
-        div.classList.add('day');
-        div.innerHTML = weekDays[i];
-        return append(div)
-      }
-      this.days.append(div)
+      this.today = DateClass.getWeekDay(new Date())
     }
   }
 </script>
 
 <style scoped>
-.dateBlock {
+.day {
   width: 100%;
   height: 60px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-.today, .anotherDay {
-  width: 50%;
-  height: 70%;
-  text-align: center;
-  padding: 2px;
+  font-size: 2.5vh;
+  padding: 3px;
 }
 .today {
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(50px);
-  border-radius: 5px;
-}
-.selectDay {
   border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 5px;
+  border-radius: 15px;
 }
 </style>

@@ -3,16 +3,21 @@
     <div class="info">
       <HeaderInfo></HeaderInfo>
     </div>
+    <div class="dateBlock">
+      <DateButtons></DateButtons>
+    </div>
   </div>
 
 </template>
 
 <script>
   import HeaderInfo from "@/components/labels/HeaderInfo.vue";
+  import DateButtons from "@/components/buttons/DateButtons.vue";
 
   export default {
     components: {
       HeaderInfo,
+      DateButtons
     }
   }
 </script>
@@ -29,5 +34,9 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+.dateBlock {
+  display: flex;
+  margin-top: 10px;
 }
 </style>

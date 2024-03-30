@@ -4,6 +4,9 @@
 </template>
 
 <script>
+import { DateClass } from "@/assets/DateClass";
+import { Cookie } from "@/assets/Cookie";
+
 export default {
   data() {
     return {
@@ -12,21 +15,8 @@ export default {
     }
   },
   created() {
-    function getCookie(name) {
-      let matches = document.cookie.match(new RegExp(
-          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
-      return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
-    this.name = (!getCookie('userName')) ? 'группа не выбрана' : getCookie('userName')
-    function weekType() {
-      let date = new Date();
-      let startDate = new Date(date.getFullYear(), 0, 1);
-      let days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-      let weekNumber = Math.ceil(days / 7);
-      return (weekNumber%2) ? 'Знаменатель' : 'Числитель';
-    }
-    this.weekNumber = weekType()
+    this.name = (!Cookie.getCookie('userName')) ? 'группа не выбрана' : Cookie.getCookie('userName')
+    this.weekNumber = DateClass.weekType()
   }
 }
 </script>

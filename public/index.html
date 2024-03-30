@@ -11,18 +11,6 @@
         <strong>К сожалению произошла непредвиденная ошибка. Пожалуйста, повторите попытку позже</strong>
     </noscript>
     <div id="app"></div>
-
-
-    <script>
-        function weekType() {
-            let date = new Date();
-            let startDate = new Date(date.getFullYear(), 0, 1);
-            let days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-            let weekNumber = Math.ceil(days / 7);
-            return (weekNumber%2) ? 'Знаменатель' : 'Числитель';
-        }
-        console.log(weekType())
-    </script>
 </body>
 <style>
     body {
@@ -35,9 +23,8 @@
     #app {
         width: 100%;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        color: aliceblue;
+        font-size: 3vh;
     }
 </style>
 </html>
