@@ -20,7 +20,7 @@
     data() {
       return {
         array: ['Студент', 'Преподователь'],
-        background: 'background-color: #0085FF'
+        background: 'background-color: #1071B5'
       }
     }
   }

@@ -25,8 +25,9 @@ export default {
   data() {
     return {
       array: [],
+      newArray: [],
       background: '',
-      placeholder: '',
+      placeholder: ''
     }
   },
   created() {
@@ -38,7 +39,6 @@ export default {
     api.get().then(
         (data) => {
           this.array = data.data
-          console.log(this.array)
         }
     )
 
