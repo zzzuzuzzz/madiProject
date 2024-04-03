@@ -5,10 +5,10 @@ class API {
     }
 
     constructor(path) {
-        this.host = `http://134.0.107.94:9110`
+        this.host = `http://134.0.107.94:9120`
         this.communityHost = this.host + path
-        this.scheduleHost = this.host + '/schedule' + path
-        this.examHost = this.host + '/exam' + path
+        this.scheduleHost = this.host + '/event/lessons' + path
+        this.examHost = this.host + '/event/exam' + path
     }
 
     async get() {

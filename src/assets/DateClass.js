@@ -1,11 +1,13 @@
 class DateClass {
 
-    static weekType() {
+    static week = 0;
+
+    static weekType(value) {
         let date = new Date();
         let startDate = new Date(date.getFullYear(), 0, 1);
         let days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
         let weekNumber = Math.ceil(days / 7);
-        return (weekNumber%2) ? 'Знаменатель' : 'Числитель';
+        return ((value + weekNumber)%2) ? 'Знаменатель' : 'Числитель';
     }
 
     static getWeekDay(date) {
@@ -39,6 +41,16 @@ class DateClass {
         date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
         let week1 = new Date(date.getFullYear(), 0, 4);
         return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+    }
+
+    static selectDay(el) {
+        let selectedDay = document.querySelector('.selectDayClass')
+        if (selectedDay) {
+            selectedDay.classList.remove('selectDayClass')
+        }
+        if (el) {
+            el.target.classList.add('selectDayClass')
+        }
     }
 }
 

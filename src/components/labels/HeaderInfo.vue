@@ -16,7 +16,7 @@ export default {
   },
   created() {
     this.name = (!Cookie.getCookie('userName')) ? 'группа не выбрана' : Cookie.getCookie('userName')
-    this.weekNumber = DateClass.weekType()
+    this.weekNumber = DateClass.weekType(DateClass.week)
   }
 }
 </script>

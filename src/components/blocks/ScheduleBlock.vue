@@ -1,18 +1,22 @@
 <script>
   import { DateClass } from "@/assets/DateClass";
+  import { View } from "@/assets/View";
   import { Cookie } from "@/assets/Cookie";
   import { API } from "@/assets/API";
+  import DateButtons from "@/components/buttons/DateButtons.vue";
 
   export default {
     data() {
       return {
         results: '',
-        todayResult: []
+        todayResult: [],
       }
     },
     created() {
-      let id = Cookie.getCookie('userId')
-      let api = new API('/schedule/group/' + id);
+      let id = Cookie.getCookie('userId');
+      let work = 'group';
+      Cookie.getCookie('userWork') === 'Студент' ? work = 'group' : work = 'teacher';
+      let api = new API('/event/lessons/' + work + '/' + id);
       api.get().then(
           (data) => {
             this.results = data.data
@@ -20,21 +24,29 @@
       )
           .then(
               () => {
-                let today = DateClass.getWeekFullDay(new Date())
-                let weekType = DateClass.weekType()
-                let len = this.results.length
-                let num = 0
-                for (len; len>0; len-- && num++) {
-                  if (this.results[num].weekday === today) {
-                    if (this.results[num].date.friequency === weekType) {
-                      this.todayResult.push(this.results[num])
-                    }
-                  }
-                }
+                View.viewScheduleByDay(null, this.results, this.todayResult, 0)
               }
           )
-    }
+          .then(
+              () => {
+                let one = this.results
+                let two = this.todayResult
+                document.addEventListener('click', function (e) {
+                  if (e.target.className === 'day' || e.target.className === 'day today') {
+                    DateClass.selectDay(e)
+                    let posts = document.querySelectorAll('.result')
+                    for (let post of posts) {
+                      post.remove()
+                    }
+                    View.viewScheduleByDay(e.target.textContent.substring(0, 2), one, two, DateClass.week)
+                  }
+                })
+              }
+          )
+    },
+    components: DateButtons
   }
+
 </script>
 
 <template>
@@ -43,11 +55,13 @@
   >
     <div class="lessonName">{{ result.discipline }}</div> <!-- Название занятия -->
 
-    <div class="lessonStart">{{ result.date.time.start.slice(0, -3) }}</div> <!-- Начало занятия -->
-    <div class="lessonEnd">{{ result.date.time.end.slice(0, -3) }}</div> <!-- Конец занятия -->
+    <div class="lessonStart" v-if="result.time.start !== null">{{ result.time.start.slice(0, -3) }}</div> <!-- Начало занятия -->
+    <div class="lessonEnd" v-if="result.time.end !== null">{{ result.time.end.slice(0, -3) }}</div> <!-- Конец занятия -->
 
     <div class="lessonType" v-if="result.type === 'Практические занятия /семинар/'">Семинар</div>
-    <div class="lessonType">{{ result.type }}</div> <!-- Тип занятия -->
+    <div class="lessonType" v-else>{{ result.type }}</div> <!-- Тип занятия -->
+
+    <div class="lessonFrequency">{{ result.frequency }}</div> <!-- Переодичность занятий-->
 
     <div class="lessonAuditorium" v-if="result.auditorium === ''"></div> <!-- Аудитория -->
     <div class="lessonAuditorium" v-else>{{ result.auditorium }}</div>
@@ -65,7 +79,7 @@
   padding: 10px;
   margin: 5px;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr 2fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
@@ -91,6 +105,10 @@
   grid-column-end: 3;
   margin-top: 1px;
   margin-bottom: 1px;
+}
+.lessonFrequency {
+  grid-row: 3;
+  grid-column: 3;
 }
 .lessonAuditorium {
   grid-row: 4;

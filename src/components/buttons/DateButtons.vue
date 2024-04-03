@@ -15,38 +15,58 @@ export default {
         ]),
         today: '',
         array: [],
+        weekNumberInt: 0
+      }
+    },
+    methods: {
+      viewDays() {
+        let days = document.querySelectorAll('.day')
+        for (let day of days) {
+          day.remove()
+        }
+        if (this.weekNumberInt === 0) {
+          this.today = DateClass.getWeekDay(new Date())
+        } else {
+          this.today = ''
+        }
+        let daysByWeekNumber = DateClass.dateByWeekNumber(new Date().getFullYear(), DateClass.getWeekNumber() + this.weekNumberInt)
+        let num = 0;
+        for (let el of this.weekDays) {
+          el[1] = daysByWeekNumber[num]
+          num++
+          this.array.push(el)
+        }
+      },
+      switchWeek(dir) {
+        if (dir === 'left') {
+          this.weekNumberInt--
+        } else {
+          this.weekNumberInt++
+        }
+        DateClass.week = this.weekNumberInt
+        this.viewDays()
       }
     },
     created() {
-      this.today = DateClass.getWeekDay(new Date())
-
-      let daysByWeekNumber = DateClass.dateByWeekNumber(new Date().getFullYear(), DateClass.getWeekNumber())
-      let num = 0;
-      for (let el of this.weekDays) {
-        el[1] = daysByWeekNumber[num]
-        num++
-        console.log(el)
-        this.array.push(el)
-      }
-      console.log(this.array)
+      this.viewDays()
     },
-    methods: {
-      selectDay() {
-        console.log()
-      }
-    }
   }
 </script>
 
 <template>
-  <div class="left"><=</div>
+  <div class="left"
+       @click="switchWeek('left')"
+  ><=</div>
+
   <div class="day"
        v-for="element in array"
        v-bind:class="{ today: element[0] === today}"
        :id="element[1]"
-       @click="selectDay"
   >{{element[0]}}<br>{{element[1]}}</div>
-  <div class="right">=></div>
+
+  <div class="right"
+       @click="switchWeek('right')"
+  >=></div>
 </template>
 
 <style scoped>
@@ -62,6 +82,9 @@ export default {
 }
 .today {
   background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+}
+.selectDayClass {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 15px;
 }
