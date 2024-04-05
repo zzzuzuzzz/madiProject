@@ -31,6 +31,6 @@ export default {
     border-radius: 5px;
     border: transparent;
     font-size: 2.5vh;
-    color: white;
+    //color: white;
   }
 </style>

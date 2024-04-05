@@ -4,6 +4,7 @@
     <div v-else>
       <Header></Header>
       <MainBlock></MainBlock>
+      <LogoutButton></LogoutButton>
     </div>
 </template>
 
@@ -12,6 +13,7 @@
     import MainBlock from "@/components/blocks/MainBlock.vue";
     import SelectWork from "@/components/blocks/SelectWork.vue";
     import SelectId from "@/components/blocks/SelectId.vue";
+    import LogoutButton from "@/components/buttons/LogoutButton.vue";
 
     import {Cookie} from "@/assets/Cookie";
 
@@ -27,7 +29,8 @@
         MainBlock,
         Header,
         SelectWork,
-        SelectId
+        SelectId,
+        LogoutButton
       },
       created() {
         this.authCookieWork = Cookie.getCookie('userWork')

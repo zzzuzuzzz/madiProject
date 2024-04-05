@@ -35,8 +35,10 @@ class View {
 
         for (len; len>0; len-- && num++) {
             if (firstArray[num].weekday === today) {
-                if (firstArray[num].frequency === 'Числ. 1 раз в месяц' || firstArray[num].frequency === 'Знам. 1 раз в месяц' || firstArray[num].frequency === weekType || firstArray[num].frequency === 'Еженедельно') {
-                    secondArray.push(firstArray[num])
+                if (firstArray[num].date.friequency === 'Числ. 1 раз в месяц' || firstArray[num].date.friequency === 'Знам. 1 раз в месяц' || firstArray[num].date.friequency === weekType || firstArray[num].date.friequency === 'Еженедельно') {
+                    if (firstArray[num].discipline !== 'Полнодневные занятия') {
+                        secondArray.push(firstArray[num])
+                    }
                 }
             }
         }

@@ -10,13 +10,15 @@
       return {
         results: '',
         todayResult: [],
+        work: ''
       }
     },
     created() {
       let id = Cookie.getCookie('userId');
       let work = 'group';
       Cookie.getCookie('userWork') === 'Студент' ? work = 'group' : work = 'teacher';
-      let api = new API('/event/lessons/' + work + '/' + id);
+      work === 'group' ? this.work = '.teacher.value' : this.work = '.group.value';
+      let api = new API('/schedule/' + work + '/' + id);
       api.get().then(
           (data) => {
             this.results = data.data
@@ -51,23 +53,27 @@
 
 <template>
   <div class="result"
+    v-if="todayResult[0] === null"
+  >
+    В этот день не занятий
+  </div>
+  <div class="result"
        v-for="result in todayResult"
   >
     <div class="lessonName">{{ result.discipline }}</div> <!-- Название занятия -->
 
-    <div class="lessonStart" v-if="result.time.start !== null">{{ result.time.start.slice(0, -3) }}</div> <!-- Начало занятия -->
-    <div class="lessonEnd" v-if="result.time.end !== null">{{ result.time.end.slice(0, -3) }}</div> <!-- Конец занятия -->
+    <div class="lessonStart" v-if="result.date.time !== null">{{ result.date.time.start.slice(0, -3) }}</div> <!-- Начало занятия -->
+    <div class="lessonEnd" v-if="result.date.time !== null">{{ result.date.time.end.slice(0, -3) }}</div> <!-- Конец занятия -->
 
     <div class="lessonType" v-if="result.type === 'Практические занятия /семинар/'">Семинар</div>
     <div class="lessonType" v-else>{{ result.type }}</div> <!-- Тип занятия -->
 
-    <div class="lessonFrequency">{{ result.frequency }}</div> <!-- Переодичность занятий-->
+    <div class="lessonFrequency">{{ result.date.friequency }}</div> <!-- Переодичность занятий-->
 
-    <div class="lessonAuditorium" v-if="result.auditorium === ''"></div> <!-- Аудитория -->
-    <div class="lessonAuditorium" v-else>{{ result.auditorium }}</div>
+    <div class="lessonAuditorium" v-if="result.auditorium !== null">{{ result.auditorium }}</div> <!-- Аудитория -->
 
-    <div class="lessonGuest" v-if="!result.teacher.value"></div> <!-- Преподователь/группа -->
-    <div class="lessonGuest" v-else>{{ result.teacher.value }}</div>
+    <div class="lessonGuest" v-if="result.teacher.value !== null">{{ result.teacher.value }}</div> <!-- Преподователь/группа -->
+    <div class="lessonGuest" v-else-if="result.group.value !== null">{{ result.group.value }}</div>
   </div>
 </template>
 
@@ -109,6 +115,7 @@
 .lessonFrequency {
   grid-row: 3;
   grid-column: 3;
+  text-align: right;
 }
 .lessonAuditorium {
   grid-row: 4;

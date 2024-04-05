@@ -1,5 +1,6 @@
 <template>
-  <input type="search" :placeholder="placeholderText" :v-model="query">
+  <input type="search" :placeholder="placeholderText" >
+<!--  :v-model="query"-->
 </template>
 
 <script>
@@ -18,7 +19,7 @@ input {
   border: transparent;
   background: rgba(0, 0, 0, 0.19);
   font-size: 2.5vh;
-  color: white;
+  //color: white;
 }
 input::-moz-placeholder {
   color: antiquewhite;

@@ -30,6 +30,12 @@ class Cookie {
         }
         document.cookie = updatedCookie;
     }
+
+    static deleteCookie(name) {
+        this.setCookie(name, "", {
+            'max-age': -1
+        })
+    }
 }
 
 export { Cookie }
